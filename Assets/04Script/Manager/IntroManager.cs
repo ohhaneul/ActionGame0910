@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class IntroManager : MonoBehaviour
 {
@@ -25,8 +26,7 @@ public class IntroManager : MonoBehaviour
     private void AutoNextScene()
     {
         Debug.Log("다음으로 이동");
-        //todo : 게임 매니저 작업 이후 씬 변경
-
+        SceneManager.LoadScene("TitleScene");
 
     }
 
