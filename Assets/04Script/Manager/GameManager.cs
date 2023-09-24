@@ -22,7 +22,8 @@ public class PlayerData //저장해야하는 데이터에 대한 구조
     public int maxMP;
     public int gold;
     public int uidCounter;  //고유한 itemID를 생성하기 위한 도구
-    // todo : 인벤토리 정보도 저장할 예정
+    public Inventory inventory;
+
 }
 
 public class GameManager : Singleton<GameManager>
@@ -48,10 +49,11 @@ public class GameManager : Singleton<GameManager>
         // 아이템 테이블 딕셔너리로 검색
         for (int i = 0; i < table.ItemData.Count; i++)
         {
+            //Debug.Log(table.ItemData[i].uid + " / " + table.ItemData.Count);
             itemTable.Add(table.ItemData[i].uid, table.ItemData[i]);
         }
 
-        //Debug.Log("팁 메세지 갯수 " + table.TipMess.Count);
+        ////Debug.Log("팁 메세지 갯수 " + table.TipMess.Count);
 
         //팁 메세지 정리
         for (int i = 0; i < table.TipMess.Count; i++)
@@ -64,18 +66,19 @@ public class GameManager : Singleton<GameManager>
                 bossTip.Add(table.TipMess[i]);
         }
 
-        /* 메세지 오류확인 : 엑셀 파일 변수이름 마지막에 띄어쓰기 있었음
-        Debug.Log("베이스" + baseTip.Count);
-        Debug.Log("배틀" + battleTip.Count);
-        Debug.Log("보스" + bossTip.Count);
-        */
+        ///* 메세지 오류확인 : 엑셀 파일 변수이름 마지막에 띄어쓰기 있었음
+        //Debug.Log("베이스" + baseTip.Count);
+        //Debug.Log("배틀" + battleTip.Count);
+        //Debug.Log("보스" + bossTip.Count);
+        //*/
 
         //List => Dictionary
-        for (int i = 0; i < table.TipMess.Count; i++)
+        for (int i = 0; i < table.MonsterData.Count; i++)
         {
             monsterData.Add(table.MonsterData[i].uid, table.MonsterData[i]);
         }
         #endregion
+        CheckData();
     }
 
 
@@ -207,6 +210,7 @@ public class GameManager : Singleton<GameManager>
         pData.curHP = pData.maxHP = 50;
         pData.curMP = pData.maxMP = 30;
         pData.uidCounter = 0;
+        pData.inventory = new Inventory();
     }
 
     public int PlayerUidMaker
@@ -252,6 +256,23 @@ public class GameManager : Singleton<GameManager>
 
 
 
+    #endregion
+
+    #region _inventory_
+    public bool LootingItem(InventoryItemData newItem)
+    {
+        if (!pData.inventory.isFull())
+        {
+            pData.inventory.AddItem(newItem);
+
+            Debug.Log("아이템 습득" + newItem.itemTableID + "인벤토리 내 아이템 갯수는" + pData.inventory.CurSlot);
+            return true;
+        }
+
+        return false;
+    }
+
+    public Inventory INVEN  {   get => pData.inventory;  }
     #endregion
 
 }
