@@ -153,12 +153,17 @@ public class GameManager : Singleton<GameManager>
 
     public void AsyncLoadNextScene(SceneName newScene)
     {
-        // todo : 저장 로직 호출
         // todo : 페이드 작업
-
+        SaveData();
         nextScene = newScene;
         SceneManager.LoadScene("LoadingScene");
+    }
 
+    private void OnLevelWasLoaded(int level)    //  새로운 씬의 로딩이 완료되면 호출되는 이벤트
+    {
+        if(level > 2)
+        Debug.Log("캐릭터 세이브 데이터 로딩.");
+        LoadData();// 세이브 정보를 불러와서 갱신
     }
 
     #region _Save&Load_
@@ -246,6 +251,7 @@ public class GameManager : Singleton<GameManager>
     public int PlayerGold
     {
         get => pData.gold;
+        set => pData.gold = value;
     }
 
     public void AddGold(int addGold)

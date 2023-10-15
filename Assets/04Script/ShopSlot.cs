@@ -1,5 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
+using System.Collections.Generic;  
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -48,13 +48,14 @@ public class ShopSlot : MonoBehaviour
         max.onClick.AddListener(OnClickMaxBtn);
     }
 
+
     public void OnClickLeftBtn()
     {
         if (curCount > 0)
             curCount--;
         sellCountText.text = curCount.ToString();
         totalGold = sellGold * curCount;
-        // todo  : shopPopup에 접근해서 거래금액에 갱신
+        shopPopup.RefreshGold();
     }
     public void OnClickRightBtn()
     {
@@ -62,14 +63,14 @@ public class ShopSlot : MonoBehaviour
             curCount++;
         sellCountText.text = curCount.ToString();
         totalGold = sellGold * curCount;
-        // todo  : shopPopup에 접근해서 거래금액에 갱신
+        shopPopup.RefreshGold();
     }
     public void OnClickMaxBtn()
     {
         curCount = sellMaxCount;
         sellCountText.text = curCount.ToString();
         totalGold = sellGold * curCount;
-        // todo  : shopPopup에 접근해서 거래금액에 갱신
+        shopPopup.RefreshGold();
     }
 
 
@@ -104,16 +105,18 @@ public class ShopSlot : MonoBehaviour
         itemID = item.itemTableID;
         sellMaxCount = item.amount;
         curCount = 0;
+        Debug.Log(curCount + " 슬롯의 cur카운트 갱신.");
 
         GameManager.Inst.GetItemData(itemID, out TableEntity_Item itemData);
         icon.sprite = Resources.Load<Sprite>(itemData.iconImg);
         itemPriceText.text = itemData.sellGold.ToString();
+        sellGold = itemData.sellGold;
         sellCountText.text = "0";
         icon.enabled = true;
     }
 
 
-    public void InstSlot(Popup_Shop _Shop, int index)
+    public void InitSlot(Popup_Shop _Shop, int index)
     {
         shopPopup = _Shop;
         slotIndex = index;

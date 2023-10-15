@@ -91,6 +91,8 @@ public class Inventory
         if (-1 < index)
         {
             items[index].amount -= deleteItem.amount;
+
+            Debug.Log(items[index].uid + " 아이템 " + items[index].amount); 
             if (items[index].amount < 1)
             {
                 items.RemoveAt(index);   //  해당 index에 해당하는 요소를 삭제
