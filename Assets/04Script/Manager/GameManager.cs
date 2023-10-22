@@ -260,7 +260,31 @@ public class GameManager : Singleton<GameManager>
         //todo : ui 갱신처리
     }
 
+    public void ChangeHP(int hp) // +-
+    {
+        pData.curHP += hp;
+        if (pData.curHP > pData.maxHP)
+            pData.curHP = pData.maxHP;
+        else if (pData.curHP < 0)
+            pData.curHP = 0;
+        UpdateHPMP();
+    }
 
+    public void ChangeMP(int mp) // +-
+    {
+        pData.curHP += mp;
+        if (pData.curMP > pData.maxMP)
+            pData.curMP = pData.maxMP;
+        else if (pData.curHP < 0)
+            pData.curMP = 0;
+
+        UpdateHPMP();
+    }
+
+    private void UpdateHPMP()
+    {
+        Debug.Log("왼쪽 상단 프로필 갱신");
+    }
 
     #endregion
 
